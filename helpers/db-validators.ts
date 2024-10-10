@@ -1,7 +1,7 @@
 import Role from '../models/role';
 import User from '../models/user';
 
-const isRoleValid = (async (role: string = '') => {
+export const isRoleValid = (async (role: string = '') => {
     const roleExists = await Role.findOne({ role });
 
     if (!roleExists) {
@@ -9,7 +9,7 @@ const isRoleValid = (async (role: string = '') => {
     }
 })
 
-const checkEmailExists = async (email: string = '') => {
+export const checkEmailExists = async (email: string = '') => {
     const emailExists = await User.findOne({ email });
 
     if (emailExists) {
@@ -17,16 +17,10 @@ const checkEmailExists = async (email: string = '') => {
     }
 }
 
-const checkUserByIdExists = async (id: string) => {
+export const checkUserByIdExists = async (id: string) => {
     const userExists = await User.findById(id);
 
     if (!userExists) {
         throw new Error(`The id, ${id} doesn't exist`);
     }
-}
-
-module.exports = {
-    isRoleValid,
-    checkEmailExists,
-    checkUserByIdExists
 }
