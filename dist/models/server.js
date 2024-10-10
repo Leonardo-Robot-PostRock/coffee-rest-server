@@ -16,10 +16,12 @@ exports.Server = void 0;
 const express_1 = __importDefault(require("express"));
 const cors_1 = __importDefault(require("cors"));
 const config_1 = __importDefault(require("../database/config"));
+const users_routes_1 = __importDefault(require("../routes/users.routes"));
+const auth_routes_1 = __importDefault(require("../routes/auth.routes"));
 class Server {
     constructor() {
         this.app = (0, express_1.default)();
-        this.port = process.env.PORT;
+        this.port = process.env.PORT || '9090';
         this.usersPath = '/api/users';
         this.authPath = '/api/auth/';
         //Conectar a base de datos
@@ -35,8 +37,8 @@ class Server {
         });
     }
     routes() {
-        this.app.use(this.usersPath, require('../routes/users.routes'));
-        this.app.use(this.authPath, require('../routes/auth.routes'));
+        this.app.use(this.usersPath, users_routes_1.default);
+        this.app.use(this.authPath, auth_routes_1.default);
     }
     middlewares() {
         //CORS

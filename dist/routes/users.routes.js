@@ -1,4 +1,5 @@
 "use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
 const { Router } = require('express');
 const { check, query } = require('express-validator');
 const { validateFields } = require('../middlewares/validate-fields');
@@ -29,5 +30,5 @@ router.delete('/:id', [
     check('id').custom(checkUserByIdExists),
     validateFields
 ], usersDelete);
-module.exports = router;
+exports.default = router;
 //# sourceMappingURL=users.routes.js.map

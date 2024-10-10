@@ -9,5 +9,6 @@ dotenv_1.default.config();
 const server_1 = require("./models/server");
 const server = new server_1.Server();
 exports.appName = 'ねこカフェ';
+console.log(exports.appName);
 server.listen();
 //# sourceMappingURL=app.js.map
