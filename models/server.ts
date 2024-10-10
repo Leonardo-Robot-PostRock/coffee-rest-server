@@ -2,16 +2,18 @@ import { Application } from "express";
 import express from 'express';
 import cors from 'cors';
 import dbConnection from '../database/config';
+import userRoutes from '../routes/users.routes';
+import authRoutes from '../routes/auth.routes';
 
 export class Server {
 	public app: Application;
-	public port: string | undefined;
+	public port!: string;
 	public usersPath: string;
 	public authPath: string;
 
 	constructor() {
 		this.app = express();
-		this.port = process.env.PORT;
+		this.port = process.env.PORT || '9090';
 		this.usersPath = '/api/users';
 		this.authPath = '/api/auth/';
 
@@ -30,8 +32,8 @@ export class Server {
 	}
 
 	routes() {
-		this.app.use(this.usersPath, require('../routes/users.routes'));
-		this.app.use(this.authPath, require('../routes/auth.routes'));
+		this.app.use(this.usersPath, userRoutes);
+		this.app.use(this.authPath, authRoutes);
 	}
 
 	middlewares() {

@@ -1,6 +1,7 @@
 import mongoose from "mongoose";
+import { IUser } from '../interfaces/user';
 
-const UserSchema = new mongoose.Schema({
+const UserSchema = new mongoose.Schema<IUser>({
     name: {
         type: String,
         required: [true, 'Name is mandatory']
@@ -37,6 +38,6 @@ UserSchema.methods.toJSON = function () {
     return user;
 }
 
-const user = mongoose.model('User', UserSchema)
+const user = mongoose.model<IUser>('User', UserSchema)
 export default user;
 
