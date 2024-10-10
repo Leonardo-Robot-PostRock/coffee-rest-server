@@ -1,7 +1,7 @@
-const { Router } = require('express');
-const { check, query } = require('express-validator');
-const { validateFields } = require('../middlewares/validate-fields');
-const { isRoleValid, checkEmailExists, checkUserByIdExists } = require('../helpers/db-validators');
+import { Router } from 'express';
+import { check, query } from 'express-validator';
+import { validateFields } from '../middlewares/validate-fields';
+import { isRoleValid, checkEmailExists, checkUserByIdExists } from '../helpers/db-validators';
 
 const {
     usersGet,
@@ -48,5 +48,4 @@ router.delete('/:id', [
     validateFields
 ], usersDelete);
 
-
-module.exports = router;
+export default router;
