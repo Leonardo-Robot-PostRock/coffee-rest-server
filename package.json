@@ -1,14 +1,17 @@
 {
-  "name": "rest-server",
+  "name": "coffee-rest-server",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "dist/app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon app.js"
+    "dev": "concurrently -k \"tsc -w\" \"nodemon ./dist/app.js\"",
+    "build": "tsc",
+    "start": "node ./dist/app.js",
+    "postinstall": "npm run build"
   },
-  "keywords": [],
-  "author": "",
+  "keywords": ["coffee shop"],
+  "author": "Leonardo Gabriel Puebla",
   "license": "ISC",
   "dependencies": {
     "bcryptjs": "^2.4.3",
@@ -18,5 +21,12 @@
     "express-validator": "^7.2.0",
     "mongoose": "^8.6.2",
     "nodemon": "^3.1.7"
+  },
+  "devDependencies": {
+    "@types/bcryptjs": "^2.4.6",
+    "@types/cors": "^2.8.17",
+    "@types/express": "^5.0.0",
+    "@types/node": "^22.7.5",
+    "concurrently": "^9.0.1"
   }
 }
