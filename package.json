@@ -10,7 +10,9 @@
     "start": "node ./dist/app.js",
     "postinstall": "npm run build"
   },
-  "keywords": ["coffee shop"],
+  "keywords": [
+    "coffee shop"
+  ],
   "author": "Leonardo Gabriel Puebla",
   "license": "ISC",
   "dependencies": {
@@ -27,6 +29,8 @@
     "@types/cors": "^2.8.17",
     "@types/express": "^5.0.0",
     "@types/node": "^22.7.5",
-    "concurrently": "^9.0.1"
+    "concurrently": "^9.0.1",
+    "tslint": "^6.1.3",
+    "typescript": "^5.6.3"
   }
 }
