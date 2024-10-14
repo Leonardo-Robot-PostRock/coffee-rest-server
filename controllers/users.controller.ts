@@ -1,8 +1,8 @@
-const { response, request } = require('express');
-const User = require('../models/user');
-const bcrypt = require('bcryptjs');
+import { Request, Response } from "express";
+import User from '../models/user';
+import bcrypt from 'bcryptjs';
 
-const usersGet = async (req = request, res = response) => {
+export const usersGet = async (req: Request, res: Response) => {
 
     const { limit = 5, from = 0 } = req.query;
     const query = { state: true };
@@ -20,7 +20,7 @@ const usersGet = async (req = request, res = response) => {
     });
 };
 
-const usersPost = async (req, res = response) => {
+export const usersPost = async (req: Request, res: Response) => {
 
     const { name, email, password, role } = req.body;
 
@@ -37,7 +37,7 @@ const usersPost = async (req, res = response) => {
     })
 }
 
-const usersPut = async (req, res = response) => {
+export const usersPut = async (req: Request, res: Response) => {
     const { id } = req.params;
 
     const { _id, password, google, email, ...rest } = req.body;
@@ -55,13 +55,13 @@ const usersPut = async (req, res = response) => {
     })
 }
 
-const usersPatch = (req, res = response) => {
+export const usersPatch = (req: Request, res: Response) => {
     res.json({
         msg: 'patch API - controller'
     })
 }
 
-const usersDelete = async (req, res = response) => {
+export const usersDelete = async (req: Request, res: Response) => {
 
     const { id } = req.params;
 
@@ -70,12 +70,4 @@ const usersDelete = async (req, res = response) => {
     res.json({
         user
     })
-}
-
-module.exports = {
-    usersGet,
-    usersPost,
-    usersPut,
-    usersPatch,
-    usersDelete
 }

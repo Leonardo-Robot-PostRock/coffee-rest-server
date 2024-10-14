@@ -1,7 +1,8 @@
-const { Router } = require('express');
-const { check, query } = require('express-validator');
-const { validateFields } = require('../middlewares/validate-fields');
-const { isRoleValid, checkEmailExists, checkUserByIdExists } = require('../helpers/db-validators');
+import { Router } from 'express';
+import { check, query } from 'express-validator';
+import { validateFields } from '../middlewares/validate-fields';
+import { isRoleValid, checkEmailExists, checkUserByIdExists } from '../helpers/db-validators';
+import { validateJWT } from '../middlewares/validate-jwt';
 
 const {
     usersGet,
@@ -43,10 +44,10 @@ router.put('/:id', [
 router.patch('/', usersPatch);
 
 router.delete('/:id', [
+    validateJWT,
     check('id', 'No es un ID válido').isMongoId(),
     check('id').custom(checkUserByIdExists),
-    validateFields
+    validateFields,
 ], usersDelete);
 
-
-module.exports = router;
+export default router;

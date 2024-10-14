@@ -1,12 +1,21 @@
-const express = require('express');
-var cors = require('cors');
-const { dbConnection } = require('../database/config');
+import { Application } from "express";
+import express from 'express';
+import cors from 'cors';
+import dbConnection from '../database/config';
+import userRoutes from '../routes/users.routes';
+import authRoutes from '../routes/auth.routes';
 
-class Server {
+export class Server {
+	public app: Application;
+	public port!: string;
+	public usersPath: string;
+	public authPath: string;
+
 	constructor() {
 		this.app = express();
-		this.port = process.env.PORT;
+		this.port = process.env.PORT || '9090';
 		this.usersPath = '/api/users';
+		this.authPath = '/api/auth/';
 
 		//Conectar a base de datos
 		this.connectToDB();
@@ -23,7 +32,8 @@ class Server {
 	}
 
 	routes() {
-		this.app.use(this.usersPath, require('../routes/users.routes'))
+		this.app.use(this.usersPath, userRoutes);
+		this.app.use(this.authPath, authRoutes);
 	}
 
 	middlewares() {
@@ -43,5 +53,3 @@ class Server {
 		});
 	}
 }
-
-module.exports = Server;
