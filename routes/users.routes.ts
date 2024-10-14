@@ -3,6 +3,7 @@ import { check, query } from 'express-validator';
 import { validateFields } from '../middlewares/validate-fields';
 import { isRoleValid, checkEmailExists, checkUserByIdExists } from '../helpers/db-validators';
 import { validateJWT } from '../middlewares/validate-jwt';
+import { isAdminRole } from '../middlewares/validate-roles';
 
 const {
     usersGet,
@@ -45,6 +46,7 @@ router.patch('/', usersPatch);
 
 router.delete('/:id', [
     validateJWT,
+    isAdminRole,
     check('id', 'No es un ID válido').isMongoId(),
     check('id').custom(checkUserByIdExists),
     validateFields,

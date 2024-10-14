@@ -65,9 +65,11 @@ export const usersDelete = async (req: Request, res: Response) => {
 
     const { id } = req.params;
 
-    const user = await User.findByIdAndUpdate(id, { state: false })
+    const user = await User.findByIdAndUpdate(id, { state: false });
+    const userAuthenticated = req.user;
 
     res.json({
-        user
+        user, 
+        userAuthenticated
     })
 }
