@@ -10,7 +10,33 @@
 <body>
     <h1>Google sing in</h1>
 
+
+    <hr />
+    <div 
+        id="g_id_onload" 
+        data-client_id="542673823613-c78onfkau3e13v5uk787o5pm9phe70b9.apps.googleusercontent.com"
+        data-login_uri="https://your.domain/your_login_endpoint" 
+        data-auto_prompt="false"
+        data-callback="handleCredentialResponse">
+    </div>
+    <div 
+        class="g_id_signin" 
+        data-type="standard" 
+        data-size="large" 
+        data-theme="outline" 
+        data-text="sign_in_with"
+        data-shape="rectangular" 
+        data-logo_alignment="left">
+    </div>
     <script src="https://accounts.google.com/gsi/client" async defer></script>
+
+    <script>
+        function handleCredentialResponse(response) {
+            console.log('id_token', response.credential)
+
+            const responsePayload = decodeJwtResponse(response.credential);
+        }
+    </script>
 </body>
 
 </html>
