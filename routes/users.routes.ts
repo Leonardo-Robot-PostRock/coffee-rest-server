@@ -3,7 +3,7 @@ import { check, query } from 'express-validator';
 import { validateFields } from '../middlewares/validate-fields';
 import { isRoleValid, checkEmailExists, checkUserByIdExists } from '../helpers/db-validators';
 import { validateJWT } from '../middlewares/validate-jwt';
-import { isAdminRole } from '../middlewares/validate-roles';
+import { hasRole, isAdminRole } from '../middlewares/validate-roles';
 
 const {
     usersGet,
@@ -35,6 +35,7 @@ router.post('/', [
 
 router.put('/:id', [
     check('id', 'No es un ID válido').isMongoId(),
+    hasRole('ADMIN_ROLE', 'USER_ROLE', 'SALES_ROLE'),
     check('id').custom(checkUserByIdExists),
     check('role').custom(isRoleValid),
     validateFields
