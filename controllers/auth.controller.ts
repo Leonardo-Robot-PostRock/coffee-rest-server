@@ -47,3 +47,11 @@ export const login = async (req: Request, res: Response) => {
 
     return;
 }
+
+export const googleSignIn = async (req: Request, res: Response) => {
+    const { id_token } = req.body;
+
+    res.json({
+        id_token
+    })
+}
