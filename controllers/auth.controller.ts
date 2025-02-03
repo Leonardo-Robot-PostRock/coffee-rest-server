@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import User from '../models/user';
 import bcrypt from 'bcryptjs';
 import { generateJWT } from "../helpers/generate-jwt";
+import { googleVerify } from "../helpers/google-verify";
 
 export const login = async (req: Request, res: Response) => {
 
@@ -51,7 +52,14 @@ export const login = async (req: Request, res: Response) => {
 export const googleSignIn = async (req: Request, res: Response) => {
     const { id_token } = req.body;
 
-    res.json({
-        id_token
-    })
+    try {
+     
+        const googleUser = await googleVerify(id_token);
+        
+        res.json({
+            googleUser
+        })
+    } catch (error) {
+        
+    }
 }
