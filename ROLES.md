@@ -31,6 +31,20 @@ Este proyecto utiliza un sistema de control de acceso basado en roles (RBAC). Lo
 
 ---
 
+### 3. **SALES_ROLE** - Vendedor
+- **Descripción:** Acceso a funciones de ventas
+- **Permisos:**
+  - ✅ Crear órdenes de venta
+  - ✅ Ver sus propias ventas
+  - ✅ Actualizar estado de órdenes
+  - ❌ Ver todas las ventas del sistema
+  - ❌ Eliminar órdenes
+  - ❌ Gestionar usuarios
+
+**Usado por:** Vendedores/personal de ventas
+
+---
+
 ## 🛡️ Middlewares de Validación de Roles
 
 ### `isAdminRole`
@@ -60,6 +74,7 @@ Al ejecutar `npm run seed`, se crean los siguientes usuarios de prueba:
 | leonardo@example.com | ADMIN_ROLE | Password123! | Admin del sistema |
 | juan@example.com | USER_ROLE | Password123! | Usuario regular |
 | maria@example.com | USER_ROLE | Password123! | Usuario regular |
+| carlos@example.com | SALES_ROLE | Password123! | Vendedor |
 
 ---
 
