@@ -163,7 +163,7 @@ El sistema soporta control de acceso basado en roles:
 - **User** - Acceso limitado a recursos propios
 - **Guest** - Acceso de solo lectura
 
-**Middleware de roles:** middlewares/validate-roles.ts
+**Documentación detallada:** Ver [ROLES.md](ROLES.md) para información completa sobre roles y permisos
 
 ## 🗄️ Base de Datos
 
