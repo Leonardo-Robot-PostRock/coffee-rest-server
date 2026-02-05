@@ -46,9 +46,9 @@ npm install
 
 3. **Crear archivo \`.env\`** en la raíz del proyecto:
 ```
-MONGO_URI=mongodb://localhost:27017/coffee-db
-JWT_SECRET=tu_clave_secreta_aqui
-PORT=3000
+MONGDB_CNN=mongodb://localhost:27017/coffee-db
+JWT_SECRET=tu_clave_secreta_super_segura_aqui_2026
+PORT=8000
 NODE_ENV=development
 ```
 
@@ -57,12 +57,19 @@ NODE_ENV=development
 npm run build
 ```
 
-5. **Iniciar el servidor:**
+5. **Iniciar el servidor en modo desarrollo:**
+```bash
+npm run dev
+```
+
+O para producción:
 ```bash
 npm start
 ```
 
-El servidor estará disponible en \`http://localhost:3000\`
+El servidor estará disponible en `http://localhost:8000`
+
+> **Nota importante:** Asegúrate de agregar el archivo `.env` a tu `.gitignore` para no compartir credenciales en el repositorio.
 
 ## ⚙️ Configuración
 
@@ -204,12 +211,12 @@ npm start
 
 ### Variables de Entorno
 
-| Variable | Descripción | Ejemplo |
-|----------|-------------|---------|
-| \`MONGO_URI\` | URL de conexión a MongoDB | \`mongodb://localhost:27017/coffee-db\` |
-| \`JWT_SECRET\` | Clave secreta para JWT | \`tu_clave_super_secreta\` |
-| \`PORT\` | Puerto del servidor | \`3000\` |
-| \`NODE_ENV\` | Ambiente de ejecución | \`development\` o \`production\` |
+| Variable | Descripción | Valor Actual |
+|----------|-------------|---------||
+| `MONGODB_CNN` | URL de conexión a MongoDB | `mongodb://localhost:27017/coffee-db` |
+| `JWT_SECRET` | Clave secreta para JWT | `tu_clave_secreta_super_segura_aqui_2026` |
+| `PORT` | Puerto del servidor | `8000` |
+| `NODE_ENV` | Ambiente de ejecución | `development` |
 
 ## 📝 Licencia
 
