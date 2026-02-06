@@ -8,8 +8,7 @@
     "dev": "concurrently -k \"tsc -w\" \"nodemon ./dist/app.js\"",
     "build": "tsc",
     "start": "npm install --omit=dev && node ./dist/app.js",
-    "seed": "tsc && node ./dist/database/seed.js",
-    "postinstall": "npm run build"
+    "seed": "tsc && node ./dist/database/seed.js"
   },
   "keywords": [
     "coffee shop"
