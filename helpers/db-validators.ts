@@ -1,5 +1,17 @@
+import { NextFunction, Request, Response } from "express";
+import { validationResult } from "express-validator";
 import Role from '../models/role';
 import User from '../models/user';
+
+export const validateFields = (req: Request, res: Response, next: NextFunction): void => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        res.status(400).json(errors);
+        return;
+    }
+
+    next();
+}
 
 export const isRoleValid = (async (role: string = '') => {
     const roleExists = await Role.findOne({ role });

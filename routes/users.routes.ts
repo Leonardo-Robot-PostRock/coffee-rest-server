@@ -1,7 +1,7 @@
 import { Router } from 'express';
 import { check, query } from 'express-validator';
-import { hasRole, isAdminRole, validateFields, validateJWT } from '../middlewares';
-import { isRoleValid, checkEmailExists, checkUserByIdExists } from '../helpers/db-validators';
+import { hasRole, isAdminRole, validateJWT } from '../middlewares';
+import { isRoleValid, checkEmailExists, checkUserByIdExists, validateFields } from '../helpers/db-validators';
 
 const {
     usersGet,

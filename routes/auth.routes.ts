@@ -1,6 +1,6 @@
 import { Router } from 'express';
 import { check } from 'express-validator';
-import { validateFields } from '../middlewares/validate-fields';
+import { validateFields } from '../helpers/validate-fields';
 import { googleSignIn, login } from '../controllers/auth.controller';
 
 const router = Router();
