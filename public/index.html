@@ -26,7 +26,7 @@
     <button id="g_id_signout">Sign Out</button>
     <script src="https://accounts.google.com/gsi/client" async></script>
 
-    <script>
+    <script type="text/javascript">
         function handleCredentialResponse(response) {
 
             const body = { id_token: response.credential }
@@ -40,9 +40,21 @@
             })
                 .then(resp => resp.json())
                 .then(resp => {
-                    console.log(resp)
+                    console.log("resp", resp)
+                    localStorage.setItem('email', resp.user.email);
                 })
                 .catch(console.warn)
+        }
+
+        const button = document.querySelector('#g_id_signout');
+
+        button.onclick = () => {
+            google.accounts.id.disableAutoSelect();
+
+            google.accounts.id.revoke(localStorage.getItem('email'), done => {
+                localStorage.clear();
+                location.reload();
+            });
         }
     </script>
 </body>
