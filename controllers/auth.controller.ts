@@ -11,6 +11,7 @@ export const login = async (req: Request, res: Response) => {
     try {
         const user = await User.findOne({ email });
 
+        // Verify if user exists
         if (!user) {
             res.status(400).json({
                 msg: 'Usuario / Password no son correctos'
@@ -18,6 +19,7 @@ export const login = async (req: Request, res: Response) => {
             return;
         }
 
+        // Verify if user is active
         if (!user.state) {
             res.status(400).json({
                 msg: 'Usuario / Password no son correctos - state: false'
@@ -53,13 +55,51 @@ export const googleSignIn = async (req: Request, res: Response) => {
     const { id_token } = req.body;
 
     try {
-     
-        const googleUser = await googleVerify(id_token);
-        
+
+        const { email, name, picture } = await googleVerify(id_token);
+
+        let user = await User.findOne({ email });
+
+        // If user does not exist, create it
+        if (!user) {
+            const data = {
+                name,
+                email,
+                password: bcrypt.hashSync(Math.random().toString(36).slice(-8), 10),
+                img: picture,
+                role: 'USER_ROLE',
+                google: true
+            };
+
+            user = new User(data);
+            await user.save();
+        }
+
+        // If the user exists but was registered traditionally, prevent duplicate accounts
+        if (!user.google) {
+            res.status(400).json({
+                msg: 'El correo ya está registrado. Use autenticación normal.'
+            });
+            return;
+        }
+
+        if (!user.state) {
+            res.status(401).json({
+                msg: 'Usuario bloqueado, hable con el administrador'
+            });
+            return;
+        }
+
+        const token = await generateJWT(user.id);
+
         res.json({
-            googleUser
-        })
+            user,
+            token
+        });
     } catch (error) {
-        
+        res.status(400).json({
+            ok: false,
+            msg: 'Token de Google no es válido'
+        })
     }
 }
