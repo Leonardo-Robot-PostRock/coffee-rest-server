@@ -2,20 +2,31 @@ import { Application } from "express";
 import express from 'express';
 import cors from 'cors';
 import dbConnection from '../database/config';
-import userRoutes from '../routes/users.routes';
-import authRoutes from '../routes/auth.routes';
+import userRoutes from '../routes/users';
+import authRoutes from '../routes/auth';
+import categoriesRoutes from '../routes/categories';
 
 export class Server {
 	public app: Application;
 	public port!: string;
-	public usersPath: string;
-	public authPath: string;
+	public path: {
+		auth: string;
+		categories: string;
+		products: string;
+		users: string;
+	};
 
 	constructor() {
 		this.app = express();
 		this.port = process.env.PORT || '9090';
-		this.usersPath = '/api/users';
-		this.authPath = '/api/auth/';
+
+
+		this.path = {
+			auth: '/api/auth',
+			categories: '/api/categories',
+			products: '/api/products',
+			users: '/api/users',
+		}
 
 		//Conectar a base de datos
 		this.connectToDB();
@@ -32,8 +43,9 @@ export class Server {
 	}
 
 	routes() {
-		this.app.use(this.usersPath, userRoutes);
-		this.app.use(this.authPath, authRoutes);
+		this.app.use(this.path.users, userRoutes);
+		this.app.use(this.path.auth, authRoutes);
+		this.app.use(this.path.categories, categoriesRoutes)
 	}
 
 	middlewares() {
