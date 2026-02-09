@@ -3,13 +3,7 @@ import { check, query } from 'express-validator';
 import { hasRole, isAdminRole, validateJWT } from '../middlewares';
 import { isRoleValid, checkEmailExists, checkUserByIdExists, validateFields } from '../helpers/db-validators';
 
-const {
-    usersGet,
-    usersPost,
-    usersPut,
-    usersPatch,
-    usersDelete
-} = require('../controllers/users.controller');
+import { usersGet, usersPost, usersPut, usersPatch, usersDelete } from '../controllers/users';
 
 const router = Router();
 
