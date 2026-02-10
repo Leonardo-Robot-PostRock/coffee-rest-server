@@ -4,7 +4,7 @@ import bcrypt from 'bcryptjs';
 import { generateJWT } from "../helpers/generate-jwt";
 import { googleVerify } from "../helpers/google-verify";
 
-export const login = async (req: Request, res: Response) => {
+const login = async (req: Request, res: Response) => {
 
     const { email, password } = req.body;
 
@@ -51,7 +51,7 @@ export const login = async (req: Request, res: Response) => {
     return;
 }
 
-export const googleSignIn = async (req: Request, res: Response) => {
+const googleSignIn = async (req: Request, res: Response) => {
     const { id_token } = req.body;
 
     try {
@@ -102,4 +102,9 @@ export const googleSignIn = async (req: Request, res: Response) => {
             msg: 'Token de Google no es válido'
         })
     }
+}
+
+export {
+    login,
+    googleSignIn
 }
