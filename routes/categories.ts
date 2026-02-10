@@ -17,7 +17,11 @@ router.get('/:id', (req, res) => {
 })
 
 // Create category - private - any role with valid token
-router.post('/', (req, res) =>{
+router.post('/', [
+    validateJWT,
+    check('nombre', 'El nombre es obligatorio').not().isEmpty(),
+    validateFields
+], (req, res) => {
     res.json('post')
 })
 
