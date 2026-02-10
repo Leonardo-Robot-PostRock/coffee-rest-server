@@ -2,8 +2,28 @@ import dotenv from 'dotenv';
 dotenv.config();
 import mongoose from 'mongoose';
 import bcryptjs from 'bcryptjs';
+import fs from 'fs';
+import path from 'path';
 import Role from '../models/role';
 import User from '../models/user';
+
+interface SeedRole {
+    role: string;
+}
+
+interface SeedUser {
+    name: string;
+    email: string;
+    password: string;
+    role: string;
+    state?: boolean;
+    google?: boolean;
+}
+
+interface SeedData {
+    roles: SeedRole[];
+    users: SeedUser[];
+}
 
 const dbConnection = async (): Promise<void> => {
     try {
@@ -15,6 +35,26 @@ const dbConnection = async (): Promise<void> => {
     }
 };
 
+const loadSeedData = (): SeedData => {
+    const seedPath = path.join(process.cwd(), 'mock', 'seed-data.json');
+
+    if (!fs.existsSync(seedPath)) {
+        throw new Error(`No se encontró el archivo de seed en: ${seedPath}`);
+    }
+
+    const raw = fs.readFileSync(seedPath, { encoding: 'utf-8' });
+    const parsed = JSON.parse(raw) as Partial<SeedData>;
+
+    if (!Array.isArray(parsed.roles) || !Array.isArray(parsed.users)) {
+        throw new Error('El archivo de seed debe contener arrays "roles" y "users"');
+    }
+
+    return {
+        roles: parsed.roles,
+        users: parsed.users
+    } as SeedData;
+};
+
 const seedDatabase = async () => {
     try {
         // Limpiar datos existentes
@@ -22,58 +62,29 @@ const seedDatabase = async () => {
         await User.deleteMany({});
         console.log('🗑️  Base de datos limpiada');
 
+        const { roles: rolesData, users: usersData } = loadSeedData();
+
         // Crear roles
-        const roles = await Role.insertMany([
-            { role: 'ADMIN_ROLE' },
-            { role: 'USER_ROLE' },
-            { role: 'SALES_ROLE' }
-        ]);
+        const roles = await Role.insertMany(rolesData);
         console.log('✅ Roles creados:', roles.length);
 
         // Crear usuarios
         const salt = bcryptjs.genSaltSync();
-        const users = await User.insertMany([
-            {
-                name: 'Leonardo Puebla',
-                email: 'leonardo@example.com',
-                password: bcryptjs.hashSync('Password123!', salt),
-                role: 'ADMIN_ROLE',
-                state: true,
-                google: false
-            },
-            {
-                name: 'Juan Pérez',
-                email: 'juan@example.com',
-                password: bcryptjs.hashSync('Password123!', salt),
-                role: 'USER_ROLE',
-                state: true,
-                google: false
-            },
-            {
-                name: 'María García',
-                email: 'maria@example.com',
-                password: bcryptjs.hashSync('Password123!', salt),
-                role: 'USER_ROLE',
-                state: true,
-                google: false
-            },
-            {
-                name: 'Carlos López',
-                email: 'carlos@example.com',
-                password: bcryptjs.hashSync('Password123!', salt),
-                role: 'SALES_ROLE',
-                state: true,
-                google: false
-            }
-        ]);
+        const usersToInsert = usersData.map((user) => ({
+            ...user,
+            password: bcryptjs.hashSync(user.password, salt),
+            state: user.state ?? true,
+            google: user.google ?? false
+        }));
+
+        const users = await User.insertMany(usersToInsert);
         console.log('✅ Usuarios creados:', users.length);
 
         console.log('\n📊 Datos de prueba insertados exitosamente');
-        console.log('\n👤 Usuarios de prueba:');
-        console.log('   - Email: leonardo@example.com | Rol: ADMIN_ROLE | Contraseña: Password123!');
-        console.log('   - Email: juan@example.com | Rol: USER_ROLE | Contraseña: Password123!');
-        console.log('   - Email: maria@example.com | Rol: USER_ROLE | Contraseña: Password123!');
-        console.log('   - Email: carlos@example.com | Rol: SALES_ROLE | Contraseña: Password123!\n');
+        console.log('\n👤 Usuarios de prueba (tomados desde mock/seed-data.json):');
+        usersData.forEach((user) => {
+            console.log(`   - Email: ${user.email} | Rol: ${user.role} | Contraseña: ${user.password}`);
+        });
 
     } catch (error) {
         console.error('❌ Error al hacer seed:', error);

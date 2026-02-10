@@ -1,0 +1,81 @@
+{
+  "roles": [
+    { "role": "ADMIN_ROLE" },
+    { "role": "USER_ROLE" },
+    { "role": "SALES_ROLE" }
+  ],
+  "users": [
+    {
+      "name": "Leonardo Puebla",
+      "email": "leonardo@example.com",
+      "password": "Password123!",
+      "role": "ADMIN_ROLE",
+      "state": true,
+      "google": false
+    },
+    {
+      "name": "Juan Pérez",
+      "email": "juan@example.com",
+      "password": "Password123!",
+      "role": "USER_ROLE",
+      "state": true,
+      "google": false
+    },
+    {
+      "name": "María García",
+      "email": "maria@example.com",
+      "password": "Password123!",
+      "role": "USER_ROLE",
+      "state": true,
+      "google": false
+    },
+    {
+      "name": "Carlos López",
+      "email": "carlos@example.com",
+      "password": "Password123!",
+      "role": "SALES_ROLE",
+      "state": true,
+      "google": false
+    },
+    {
+      "name": "Test User 1",
+      "email": "test1@google.com",
+      "password": "Password123!",
+      "role": "ADMIN_ROLE",
+      "state": true,
+      "google": true
+    },
+    {
+      "name": "Test User 2",
+      "email": "test2@google.com",
+      "password": "Password123!",
+      "role": "SALES_ROLE",
+      "state": true,
+      "google": true
+    },
+    {
+      "name": "Test User 3",
+      "email": "test3@google.com",
+      "password": "Password123!",
+      "role": "USER_ROLE",
+      "state": true,
+      "google": true
+    },
+    {
+      "name": "Test User 4",
+      "email": "test4@google.com",
+      "password": "Password123!",
+      "role": "USER_ROLE",
+      "state": true,
+      "google": true
+    },
+    {
+      "name": "Test User 5",
+      "email": "test5@google.com",
+      "password": "Password123!",
+      "role": "USER_ROLE",
+      "state": true,
+      "google": true
+    }
+  ]
+}
