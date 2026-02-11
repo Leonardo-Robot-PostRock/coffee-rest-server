@@ -48,6 +48,9 @@ const usersPut = async (req: Request, res: Response) => {
         rest.password = bcrypt.hashSync(password, salt);
     }
 
+    // Update timestamp for last modification
+    rest.updated_at = new Date();
+
     const user = await User.findByIdAndUpdate(id, rest);
 
     res.json({
