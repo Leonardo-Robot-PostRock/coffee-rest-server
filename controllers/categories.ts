@@ -15,6 +15,7 @@ const createCategory = async (req: Request, res: Response) => {
         res.status(400).json({
             msg: `La categoría ${categoryDB.name} ya existe`
         });
+        return;
     }
 
     // Generate the data to save
@@ -64,6 +65,7 @@ const getCategoryById = async (req: Request, res: Response) => {
         res.status(404).json({
             msg: `No existe la categoría con id ${id}`
         });
+        return;
     }
 
     res.json(category);
@@ -82,6 +84,7 @@ const updateCategory = async (req: Request, res: Response) => {
         res.status(400).json({
             msg: `La categoría ${categoryDB.name} ya existe`
         });
+        return;
     }
 
     // Generate the data to update
