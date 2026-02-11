@@ -1,4 +1,4 @@
-import { Document } from "mongoose";
+import { Document, ObjectId } from "mongoose";
 
 export interface IUser extends Document {
     name: string;
@@ -8,4 +8,6 @@ export interface IUser extends Document {
     role: string;
     state: boolean;
     google: boolean;
+    created_at: Date;
+    updated_at: Date;
 }
