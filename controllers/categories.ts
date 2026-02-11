@@ -90,16 +90,14 @@ const updateCategory = async (req: Request, res: Response) => {
     // Generate the data to update
     const data = {
         name,
-        modify_backlog: {
-            updatedBy: req.user._id,
-            updated_at: new Date()
-        }
+        updatedBy: req.user._id,
+        updated_at: new Date()
     };
 
     // Update the category in the database
     const category = await Category.findByIdAndUpdate(id, data, { new: true })
         .populate('addedBy', 'name email')
-        .populate('modify_backlog.updatedBy', 'name email');
+        .populate('updatedBy', 'name email');
 
     res.json(category);
 }
@@ -113,7 +111,7 @@ const deleteCategory = async (req: Request, res: Response) => {
     // Update the category's state to false in the database
     const categoryDB = await Category.findByIdAndUpdate(id, { state }, { new: true })
         .populate('addedBy', 'name email')
-        .populate('modify_backlog.updatedBy', 'name email');
+        .populate('updatedBy', 'name email');
 
     res.json(categoryDB);
 }
