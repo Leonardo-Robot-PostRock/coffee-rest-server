@@ -14,7 +14,7 @@ const usersGet = async (req: Request, res: Response) => {
             .limit(Number(limit)),
     ]);
 
-    res.json({
+    res.status(200).json({
         total,
         users
     });
@@ -32,7 +32,7 @@ const usersPost = async (req: Request, res: Response) => {
 
     await user.save();
 
-    res.json({
+    res.status(201).json({
         user
     })
 }
@@ -51,15 +51,15 @@ const usersPut = async (req: Request, res: Response) => {
     // Update timestamp for last modification
     rest.updated_at = new Date();
 
-    const user = await User.findByIdAndUpdate(id, rest);
+    const user = await User.findByIdAndUpdate(id, rest, { new: true });
 
-    res.json({
+    res.status(200).json({
         user
     })
 }
 
 const usersPatch = (req: Request, res: Response) => {
-    res.json({
+    res.status(200).json({
         msg: 'patch API - controller'
     })
 }
@@ -71,7 +71,7 @@ const usersDelete = async (req: Request, res: Response) => {
     const user = await User.findByIdAndUpdate(id, { state: false });
     const userAuthenticated = req.user;
 
-    res.json({
+    res.status(200).json({
         user,
         userAuthenticated
     })
