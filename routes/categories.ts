@@ -1,40 +1,50 @@
 import { Router } from 'express';
 import { check, query } from 'express-validator';
 import { hasRole, isAdminRole, validateJWT } from '../middlewares';
-import { isRoleValid, checkEmailExists, checkUserByIdExists, validateFields } from '../helpers/db-validators';
+import { createCategory, deleteCategory, getCategories, getCategoryById, updateCategory } from '../controllers/categories';
+import { checkCategoryExist, validateFields } from '../helpers/db-validators';
 
 const router = Router();
 
-
-// Get all categories - public
-router.get('/', (req, res) => {
-    res.json('Todo ok')
-})
+// Get all categories - paginated - total - populate 
+router.get('/', [
+    query('limit', 'El límite debe ser un número').optional().isNumeric(),
+    query('from', 'El desde debe ser un número').optional().isNumeric(),
+    validateFields
+], getCategories);
 
 // Get category by id - public
-router.get('/:id', (req, res) => {
-    res.json('get - id')
-})
+router.get('/:id', [
+    check('id', 'No es un ID válido').isMongoId(),
+    hasRole('ADMIN_ROLE', 'USER_ROLE', 'SALES_ROLE'),
+    check('id').custom(checkCategoryExist),
+    validateFields
+], getCategoryById);
 
 // Create category - private - any role with valid token
 router.post('/', [
     validateJWT,
-    check('nombre', 'El nombre es obligatorio').not().isEmpty(),
+    hasRole('ADMIN_ROLE'),
+    check('name', 'El nombre es obligatorio').not().isEmpty(),
     validateFields
-], (req, res) => {
-    res.json('post')
-})
+], createCategory);
 
 // Update category - private - any role with valid token
-router.put('/:id', (req, res) => {
-    res.json('put')
-})
+router.put('/:id', [
+    validateJWT,
+    check('id', 'No es un ID válido').isMongoId(),
+    check('id').custom(checkCategoryExist),
+    check('name', 'El nombre es obligatorio').not().isEmpty(),
+    validateFields
+], updateCategory);
 
 // Delete category - private - only admin
-router.delete('/:id', (req, res) => {
-    res.json('delete')
-})
-
-
+router.delete('/:id', [
+    validateJWT,
+    isAdminRole,
+    check('id', 'No es un ID válido').isMongoId(),
+    check('id').custom(checkCategoryExist),
+    validateFields
+], deleteCategory);
 
 export default router;
