@@ -19,7 +19,7 @@ const createCategory = async (req: Request, res: Response) => {
     // Generate the data to save
     const data = {
         name,
-        addedBy: req.user._id
+        addedBy: req.user!._id
     }
 
     // Create a new category instance
@@ -90,7 +90,7 @@ const updateCategory = async (req: Request, res: Response) => {
 
     // Generate the data to update
     data.name = name;
-    data.updatedBy = req.user._id;
+    data.updatedBy = req.user!._id;
     data.updated_at = new Date();
 
     // Update the category in the database
