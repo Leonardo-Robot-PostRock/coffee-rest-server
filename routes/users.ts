@@ -7,6 +7,7 @@ import { usersGet, usersPost, usersPut, usersPatch, usersDelete } from '../contr
 
 const router = Router();
 
+// Get all users - paginated - total
 router.get('/', [
     query('limit', 'El valor de limit debe ser un número').optional().isNumeric(),
     query('from', 'El valor de from debe ser un número').optional().isNumeric(),
@@ -15,6 +16,7 @@ router.get('/', [
     usersGet
 );
 
+// Create user - private - any role with valid token
 router.post('/', [
     check('name', 'El nombre es obligatorio').not().isEmpty(),
     check('password', 'El password debe ser más de 6 letras').isLength({ min: 6 }),
@@ -25,6 +27,7 @@ router.post('/', [
     usersPost
 );
 
+// Update user - private - any role with valid token
 router.put('/:id', [
     check('id', 'No es un ID válido').isMongoId(),
     hasRole('ADMIN_ROLE', 'USER_ROLE', 'SALES_ROLE'),
@@ -37,6 +40,7 @@ router.put('/:id', [
 
 router.patch('/', usersPatch);
 
+// Delete user - private - only admin
 router.delete('/:id', [
     validateJWT,
     isAdminRole,

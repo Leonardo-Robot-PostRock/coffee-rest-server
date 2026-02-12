@@ -29,6 +29,14 @@ const UserSchema = new mongoose.Schema<IUser>({
     google: {
         type: Boolean,
         default: false
+    },
+    created_at: {
+        type: Date,
+        default: Date.now
+    },
+    updated_at: {
+        type: Date,
+        default: Date.now
     }
 })
 
@@ -40,6 +48,6 @@ UserSchema.methods.toJSON = function () {
     return user;
 }
 
-const user = mongoose.model<IUser>('User', UserSchema)
-export default user;
+const User = mongoose.model<IUser>('User', UserSchema)
+export default User;
 
