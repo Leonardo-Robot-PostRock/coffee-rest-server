@@ -18,6 +18,8 @@ interface SeedUser {
     role: string;
     state?: boolean;
     google?: boolean;
+    created_at?: Date;
+    updated_at?: Date;
 }
 
 interface SeedData {
@@ -70,12 +72,18 @@ const seedDatabase = async () => {
 
         // Crear usuarios
         const salt = bcryptjs.genSaltSync();
-        const usersToInsert = usersData.map((user) => ({
-            ...user,
-            password: bcryptjs.hashSync(user.password, salt),
-            state: user.state ?? true,
-            google: user.google ?? false
-        }));
+        const usersToInsert = usersData.map((user) => {
+            const now = new Date();
+
+            return {
+                ...user,
+                password: bcryptjs.hashSync(user.password, salt),
+                state: user.state ?? true,
+                google: user.google ?? false,
+                created_at: user.created_at ?? now,
+                updated_at: user.updated_at ?? now
+            };
+        });
 
         const users = await User.insertMany(usersToInsert);
         console.log('✅ Usuarios creados:', users.length);
