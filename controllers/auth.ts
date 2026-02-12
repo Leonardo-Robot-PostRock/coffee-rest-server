@@ -13,7 +13,7 @@ const login = async (req: Request, res: Response) => {
 
         // Verify if user exists
         if (!user) {
-            res.status(400).json({
+            res.status(401).json({
                 msg: 'Usuario / Password no son correctos'
             })
             return;
@@ -21,16 +21,16 @@ const login = async (req: Request, res: Response) => {
 
         // Verify if user is active
         if (!user.state) {
-            res.status(400).json({
-                msg: 'Usuario / Password no son correctos - state: false'
+            res.status(403).json({
+                msg: 'Usuario bloqueado, hable con el administrador'
             })
             return;
         }
 
         const validPassword = bcrypt.compareSync(password, user.password);
         if (!validPassword) {
-            res.status(400).json({
-                msg: 'Usuario / Password no son correctos - password'
+            res.status(401).json({
+                msg: 'Usuario / Password no son correctos'
             })
             return;
         }
@@ -42,7 +42,6 @@ const login = async (req: Request, res: Response) => {
             token
         })
     } catch (error) {
-        console.log(error);
         res.status(500).json({
             msg: 'Hable con el administrador'
         })
@@ -84,7 +83,7 @@ const googleSignIn = async (req: Request, res: Response) => {
         }
 
         if (!user.state) {
-            res.status(401).json({
+            res.status(403).json({
                 msg: 'Usuario bloqueado, hable con el administrador'
             });
             return;
@@ -92,12 +91,12 @@ const googleSignIn = async (req: Request, res: Response) => {
 
         const token = await generateJWT(user.id);
 
-        res.json({
+        res.status(200).json({
             user,
             token
         });
     } catch (error) {
-        res.status(400).json({
+        res.status(401).json({
             ok: false,
             msg: 'Token de Google no es válido'
         })
