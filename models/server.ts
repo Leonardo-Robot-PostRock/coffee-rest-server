@@ -5,11 +5,12 @@ import dbConnection from '../database/config';
 import userRoutes from '../routes/users';
 import authRoutes from '../routes/auth';
 import categoriesRoutes from '../routes/categories';
+import productsRoutes from '../routes/products';
 
 export class Server {
 	public app: Application;
 	public port!: string;
-	public path: {
+	public readonly path: {
 		auth: string;
 		categories: string;
 		products: string;
@@ -45,7 +46,8 @@ export class Server {
 	routes() {
 		this.app.use(this.path.users, userRoutes);
 		this.app.use(this.path.auth, authRoutes);
-		this.app.use(this.path.categories, categoriesRoutes)
+		this.app.use(this.path.categories, categoriesRoutes);
+		this.app.use(this.path.products, productsRoutes);
 	}
 
 	middlewares() {

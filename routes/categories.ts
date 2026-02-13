@@ -13,8 +13,9 @@ router.get('/', [
     validateFields
 ], getCategories);
 
-// Get category by id - public
+// Get category by id - populate {}
 router.get('/:id', [
+    validateJWT,
     check('id', 'No es un ID válido').isMongoId(),
     hasRole('ADMIN_ROLE', 'USER_ROLE', 'SALES_ROLE'),
     check('id').custom(checkCategoryExist),

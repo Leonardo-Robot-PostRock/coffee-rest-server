@@ -1,7 +1,5 @@
 import { Request, Response } from "express"
 import Category from "../models/category";
-import path from 'path';
-
 
 const createCategory = async (req: Request, res: Response) => {
     // Convert the name category to uppercase
@@ -12,7 +10,7 @@ const createCategory = async (req: Request, res: Response) => {
 
     // If the category already exists, return an error
     if (categoryDB) {
-        res.status(400).json({
+        res.status(409).json({
             msg: `La categoría ${categoryDB.name} ya existe`
         });
         return;
@@ -21,7 +19,7 @@ const createCategory = async (req: Request, res: Response) => {
     // Generate the data to save
     const data = {
         name,
-        addedBy: req.user._id
+        addedBy: req.user!._id
     }
 
     // Create a new category instance
@@ -49,7 +47,7 @@ const getCategories = async (req: Request, res: Response) => {
             .populate('addedBy', 'name email')
     ]);
 
-    res.json({
+    res.status(200).json({
         total,
         categories
     });
@@ -68,38 +66,39 @@ const getCategoryById = async (req: Request, res: Response) => {
         return;
     }
 
-    res.json(category);
+    res.status(200).json(category);
 }
 
 // updateCategory - name to uppercase - populate {}
 const updateCategory = async (req: Request, res: Response) => {
     const { id } = req.params;
 
+    // Avoid updating the state and user fields
+    const { state, user, ...data } = req.body;
+
     const name = req.body.name.toUpperCase();
 
     // Verificar si ya existe otra categoría con el mismo nombre
-    const categoryDB = await Category.findOne({ name, _id: { $ne: id } });
+    const categoryDB = await Category.findOne({ name });
 
     if (categoryDB) {
-        res.status(400).json({
+        res.status(409).json({
             msg: `La categoría ${categoryDB.name} ya existe`
         });
         return;
     }
 
     // Generate the data to update
-    const data = {
-        name,
-        updatedBy: req.user._id,
-        updated_at: new Date()
-    };
+    data.name = name;
+    data.updatedBy = req.user!._id;
+    data.updated_at = new Date();
 
     // Update the category in the database
     const category = await Category.findByIdAndUpdate(id, data, { new: true })
         .populate('addedBy', 'name email')
         .populate('updatedBy', 'name email');
 
-    res.json(category);
+    res.status(200).json(category);
 }
 
 // deleteCategory - state to false
@@ -113,7 +112,7 @@ const deleteCategory = async (req: Request, res: Response) => {
         .populate('addedBy', 'name email')
         .populate('updatedBy', 'name email');
 
-    res.json(categoryDB);
+    res.status(200).json(categoryDB);
 }
 
 export {
