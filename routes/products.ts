@@ -3,7 +3,7 @@ import { createProduct, deleteProduct, getProductById, getProducts, updateProduc
 
 const router = Router();
 
-// get all products
+// get all products, paginated, total, populate and filter by category
 router.get('/', [
 
 ],
