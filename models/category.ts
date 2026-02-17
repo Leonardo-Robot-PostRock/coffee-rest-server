@@ -3,6 +3,7 @@ import { ICategory } from "../interfaces/category";
 
 const CategorySchema = new mongoose.Schema<ICategory>({
     name: {
+        unique: true,
         type: String,
         required: [true, 'Name is mandatory']
     },
@@ -35,7 +36,7 @@ CategorySchema.methods.toJSON = function () {
     const { __v, state, _id, ...category } = this.toObject();
 
     category.uid = _id;
-    
+
     if (category.addedBy && typeof category.addedBy === 'object' && '_id' in category.addedBy) {
         category.addedBy.uid = category.addedBy._id;
         delete category.addedBy._id;
