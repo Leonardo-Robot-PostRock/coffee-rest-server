@@ -32,6 +32,9 @@ const CategorySchema = new mongoose.Schema<ICategory>({
 
 })
 
+// Create a unique index on the name field with case-insensitive collation
+CategorySchema.index({ name: 1 }, { unique: true, collation: { locale: 'es', strength: 2 } });
+
 CategorySchema.methods.toJSON = function () {
     const { __v, state, _id, ...category } = this.toObject();
 
