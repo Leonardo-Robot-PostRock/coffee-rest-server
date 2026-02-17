@@ -25,11 +25,17 @@ const createCategory = async (req: Request, res: Response) => {
     // Create a new category instance
     const category = new Category(data);
 
-    // Save the category to the database
-    await category.save();
-
-    // Return the category in the response
-    res.status(201).json(category);
+    // Save the category to the database with duplicate-key handling
+    try {
+        await category.save();
+        res.status(201).json(category);
+    } catch (err: any) {
+        if (err && err.code === 11000) {
+            res.status(409).json({ msg: `La categoría ${name} ya existe` });
+            return;
+        }
+        throw err;
+    }
 }
 
 // getCategories - paginated - total - populate
@@ -79,7 +85,7 @@ const updateCategory = async (req: Request, res: Response) => {
     const name = req.body.name.toUpperCase();
 
     // Verificar si ya existe otra categoría con el mismo nombre
-    const categoryDB = await Category.findOne({ name });
+    const categoryDB = await Category.findOne({ name, _id: { $ne: id } });
 
     if (categoryDB) {
         res.status(409).json({
@@ -94,11 +100,19 @@ const updateCategory = async (req: Request, res: Response) => {
     data.updated_at = new Date();
 
     // Update the category in the database
-    const category = await Category.findByIdAndUpdate(id, data, { new: true })
-        .populate('addedBy', 'name email')
-        .populate('updatedBy', 'name email');
+    try {
+        const category = await Category.findByIdAndUpdate(id, data, { new: true })
+            .populate('addedBy', 'name email')
+            .populate('updatedBy', 'name email');
 
-    res.status(200).json(category);
+        res.status(200).json(category);
+    } catch (err: any) {
+        if (err && err.code === 11000) {
+            res.status(409).json({ msg: `La categoría ${data.name} ya existe` });
+            return;
+        }
+        throw err;
+    }
 }
 
 // deleteCategory - state to false
