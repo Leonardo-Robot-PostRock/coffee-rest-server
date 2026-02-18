@@ -1,6 +1,6 @@
-import { UserEntity } from "../interfaces/user";
+import { IUser } from "../interfaces/user";
 
-export class User implements UserEntity {
+export class User implements IUser {
     constructor(
         public name: string,
         public email: string,
