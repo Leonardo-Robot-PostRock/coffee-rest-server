@@ -1,12 +1,13 @@
-import type { IUser } from '../interfaces/user';
+import { MongoUserDocument } from "../app/users/infrastructure/mongoose/interfaces/user";
 
-export {};
+
+export { };
 
 declare global {
     namespace Express {
         interface Request {
             uid?: string;
-            user?: IUser;
+            user?: MongoUserDocument;
         }
     }
 }
