@@ -1,6 +1,9 @@
 import { NextFunction, Request, Response } from 'express';
 import jwt, { JwtPayload, PublicKey, Secret } from 'jsonwebtoken';
-import User from '../models/user';
+
+// TODO: the middleware can't be tested because it depends on the database, 
+// we should refactor it to be able to test it without the database
+import User from '../app/users/infrastructure/mongoose/user';
 
 export const validateJWT = async (req: Request, res: Response, next: NextFunction) => {
 
