@@ -3,7 +3,7 @@ import { check, query } from 'express-validator';
 import { hasRole, isAdminRole, validateJWT } from '../../../../middlewares';
 import { isRoleValid, checkEmailExists, checkUserByIdExists, validateFields } from '../../../../helpers/db-validators';
 
-import { getUsersController, createUserController, updateUserController, patchUserController, deleteUserController } from '../controllers/user.controller';
+import { userController } from '../../user.module';
 
 const router = Router();
 
@@ -13,7 +13,7 @@ router.get('/', [
     query('from', 'El valor de from debe ser un número').optional().isNumeric(),
     validateFields,
 ],
-    getUsersController
+    userController.getUsersController
 );
 
 // Create user - private - any role with valid token
@@ -24,7 +24,7 @@ router.post('/', [
     check('role').custom(isRoleValid),
     validateFields
 ],
-    createUserController
+    userController.createUserController
 );
 
 // Update user - private - any role with valid token
@@ -35,10 +35,10 @@ router.put('/:id', [
     check('role').custom(isRoleValid),
     validateFields
 ],
-    updateUserController
+    userController.updateUserController
 );
 
-router.patch('/', patchUserController);
+router.patch('/', userController.patchUserController);
 
 // Delete user - private - only admin
 router.delete('/:id', [
@@ -47,6 +47,6 @@ router.delete('/:id', [
     check('id', 'No es un ID válido').isMongoId(),
     check('id').custom(checkUserByIdExists),
     validateFields,
-], deleteUserController);
+], userController.deleteUserController);
 
 export default router;
