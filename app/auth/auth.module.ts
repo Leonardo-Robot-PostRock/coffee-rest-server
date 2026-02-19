@@ -1,5 +1,5 @@
-// Infrastructure
-import { MongooseAuthRepository } from "../infrastructure/persistence/mongoose/auth/repository/auth.repository";
+// Infrastructure implementations: repositories
+import { MongooseAuthRepository } from "../infrastructure/persistence/mongoose/auth/repository/mongo-auth.repository";
 
 // Service Layer
 import { AuthService } from "./services/auth.service";
