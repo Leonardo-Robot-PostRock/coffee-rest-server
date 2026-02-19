@@ -1,11 +1,11 @@
 import { NextFunction, Request, Response } from 'express';
 import jwt, { JwtPayload, PublicKey, Secret } from 'jsonwebtoken';
 
-// TODO: the middleware can't be tested because it depends on the database, 
-// we should refactor it to be able to test it without the database
-import User from '../app/users/infrastructure/mongoose/user';
+// Interface User Repository
+import { IUserRepository } from '../app/users/domain/repositories/user.repository';
 
-export const validateJWT = async (req: Request, res: Response, next: NextFunction) => {
+export const buildValidateJWT = (userRepository: IUserRepository) =>
+    async (req: Request, res: Response, next: NextFunction) => {
 
     const token = req.header('x-token');
 
@@ -23,7 +23,7 @@ export const validateJWT = async (req: Request, res: Response, next: NextFunctio
 
             req.uid = uid;
 
-            const user = await User.findById(uid);
+            const user = await userRepository.findById(uid);
 
             if (!user) {
                 return res.status(400).json({
@@ -50,5 +50,4 @@ export const validateJWT = async (req: Request, res: Response, next: NextFunctio
             msg: 'Token no válido'
         })
     }
-
 }
