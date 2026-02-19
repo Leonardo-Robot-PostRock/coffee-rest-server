@@ -8,8 +8,8 @@ export class User implements IUser {
         public email: string,
         public password: string,
         public role: string,
+        public state: boolean,
         public img?: string,
-        public state?: boolean,
         public google?: boolean,
         public created_at?: Date,
         public updated_at?: Date
@@ -22,8 +22,8 @@ export class User implements IUser {
             props.email,
             props.password,
             props.role,
-            props.img || '',
             props.state,
+            props.img || '',
             props.google,
             new Date(),
             new Date()

@@ -1,6 +1,6 @@
 // Infrastructure
-import { MongooseUserRepository } from "./infrastructure/mongoose/user.repository";
-import { BcryptPasswordHasher } from "../auth/infrastructure/security/bcrypt-password-hasher";
+import { BcryptPasswordHasher } from "../infrastructure/security/bcrypt-password-hasher";
+import { MongooseUserRepository } from "../infrastructure/persistence/mongoose/users/repository/mongo-user.repository";
 
 // User Service Layer
 import { UserService } from "./services/user.service";

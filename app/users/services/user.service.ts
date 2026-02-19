@@ -1,12 +1,14 @@
+// Repositories
 import { IUserRepository } from '../domain/repositories/user.repository';
 
+// Interfaces
 import { IPasswordHasher } from '../../auth/domain/interfaces/password-hasher';
 
-import { UserResponseDTO } from '../dto/user-response-DTO';
+// Mappers
+import { UserMapper } from './user.mapper';
 
-import { UserMapper } from './user-mapper';
-import { CreateUserDTO } from '../dto/create-user-DTO';
-import { UpdateUserDTO } from '../dto/update-user.DTO';
+// DTOs
+import { ICreateUserDTO, IUpdateUserDTO, IUserResponseDTO } from '../dto';
 
 interface GetUsersParams {
     limit?: number;
@@ -19,15 +21,16 @@ export class UserService {
         private readonly passwordHasher: IPasswordHasher
     ) { }
 
-    async getUsersService({ limit = 5, from = 0 }: GetUsersParams): Promise<{ total: number; users: UserResponseDTO[] }> {
+    async getUsersService({ limit = 5, from = 0 }: GetUsersParams): Promise<{ total: number; users: IUserResponseDTO[] }> {
         const { total, users } = await this.userRepository.findActive(limit, from);
+
         return {
             total,
             users: users.map(UserMapper.toResponseDTO)
         };
     };
 
-    async createUserService({ name, email, password, role }: CreateUserDTO): Promise<UserResponseDTO> {
+    async createUserService({ name, email, password, role }: ICreateUserDTO): Promise<IUserResponseDTO> {
         const hashedPassword = await this.passwordHasher.hash(password);
 
         const user = await this.userRepository.create({
@@ -38,13 +41,12 @@ export class UserService {
         });
 
         return UserMapper.toResponseDTO(user);
-
     };
 
-    async updateUserService({ id, data }: { id: string; data: UpdateUserDTO }): Promise<UserResponseDTO | null> {
+    async updateUserService({ id, data }: { id: string; data: IUpdateUserDTO }): Promise<IUserResponseDTO | null> {
         const { password, ...rest } = data;
 
-        const updatePayload: Partial<UpdateUserDTO> = { ...rest };
+        const updatePayload: Partial<IUpdateUserDTO> = { ...rest };
 
         if (password) {
             updatePayload.password = await this.passwordHasher.hash(password);
@@ -53,11 +55,13 @@ export class UserService {
         updatePayload.updated_at = new Date();
 
         const updated = await this.userRepository.updateById(id, updatePayload);
+
         return updated ? UserMapper.toResponseDTO(updated) : null;
     };
 
-    async deleteUserService(id: string): Promise<UserResponseDTO | null> {
+    async deleteUserService(id: string): Promise<IUserResponseDTO | null> {
         const deleted = await this.userRepository.deleteById(id);
+
         return deleted ? UserMapper.toResponseDTO(deleted) : null;
     };
 }

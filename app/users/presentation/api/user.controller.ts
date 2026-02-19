@@ -3,7 +3,7 @@ import { UserService } from "../../services/user.service";
 
 export const buildUserController = (userService: UserService) => ({
 
-    getUsersController: async (req: Request, res: Response) => {
+    getUsers: async (req: Request, res: Response) => {
         const { limit = 5, from = 0 } = req.query;
         const result = await userService.getUsersService({
             limit: Number(limit),
@@ -13,7 +13,7 @@ export const buildUserController = (userService: UserService) => ({
         res.status(200).json(result);
     },
 
-    createUserController: async (req: Request, res: Response) => {
+    createUser: async (req: Request, res: Response) => {
 
         const { name, email, password, role } = req.body;
         const user = await userService.createUserService({ name, email, password, role });
@@ -21,20 +21,20 @@ export const buildUserController = (userService: UserService) => ({
         res.status(201).json({ user });
     },
 
-    updateUserController: async (req: Request, res: Response) => {
+    updateUser: async (req: Request, res: Response) => {
         const { id } = req.params;
         const user = await userService.updateUserService({ id, data: req.body });
 
         res.status(200).json({ user })
     },
 
-    patchUserController: (req: Request, res: Response) => {
+    patchUser: (req: Request, res: Response) => {
         res.status(200).json({
             msg: 'patch API - controller'
         })
     },
 
-    deleteUserController: async (req: Request, res: Response) => {
+    deleteUser: async (req: Request, res: Response) => {
 
         const { id } = req.params;
         const user = await userService.deleteUserService(id);

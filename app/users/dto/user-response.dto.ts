@@ -1,12 +1,10 @@
-export interface IUser {
+export interface IUserResponseDTO {
     uid: string;
     name: string;
     email: string;
-    password: string;
-    img?: string;
     role: string;
     state: boolean;
-    google?: boolean;
+    img?: string;
     created_at?: Date;
     updated_at?: Date;
 }
