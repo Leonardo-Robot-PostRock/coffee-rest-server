@@ -9,10 +9,10 @@ export class User implements IUser {
         public password: string,
         public role: string,
         public state: boolean,
+        public createdAt: Date,
+        public updatedAt?: Date,
         public img?: string,
-        public google?: boolean,
-        public createdAt?: Date,
-        public updatedAt?: Date
+        public google?: boolean
     ) { }
 
     static create(props: IUser) {
@@ -23,10 +23,10 @@ export class User implements IUser {
             props.password,
             props.role,
             props.state,
+            props.createdAt || new Date(),
+            props.updatedAt || new Date(),
             props.img || '',
             props.google,
-            props.createdAt || new Date(),
-            props.updatedAt || new Date()
         )
     }
 }
