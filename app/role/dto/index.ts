@@ -1,0 +1,1 @@
+export { ICreateRoleDto, IResponseRoleDto, IUpdateRoleDto } from "./role.dto";
