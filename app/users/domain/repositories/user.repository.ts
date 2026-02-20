@@ -7,3 +7,7 @@ export interface IUserRepository {
     updateById(id: string, data: Partial<IUser>): Promise<IUser | null>;
     deleteById(id: string): Promise<IUser | null>;
 }
+
+export interface IUserFinder {
+    findById(id: string): Promise<IUser | null>;
+}

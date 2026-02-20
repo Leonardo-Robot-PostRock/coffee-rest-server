@@ -1,6 +1,6 @@
 import { Request, Response } from "express"
 import Product from "../models/product";
-import Category from "../models/category";
+import { Category } from "../app/infrastructure/persistence/mongoose/category/models/category.model";
 import { Types } from 'mongoose';
 
 const getProducts = async (req: Request, res: Response) => {
@@ -22,7 +22,7 @@ const getProducts = async (req: Request, res: Response) => {
                 res.status(200).json({ total: 0, products: [] });
                 return;
             }
-            query.categoria = cat._id;
+            query.category = cat._id;
         }
     }
 
@@ -78,8 +78,8 @@ const createProduct = async (req: Request, res: Response) => {
     // Accept category as name
     let categoryDB = null;
 
-    const catName = String(category).toUpperCase();
-    categoryDB = await Category.findOne({ name: catName, state: true });
+    const categoryName = category.toUpperCase();
+    categoryDB = await Category.findOne({ name: categoryName, state: true });
 
 
     if (!categoryDB || !categoryDB.state) {
@@ -91,8 +91,8 @@ const createProduct = async (req: Request, res: Response) => {
         name: nameUpper,
         description,
         price,
-        categoria: categoryDB._id,
-        addedBy: req.user!._id
+        category: categoryDB._id,
+        addedBy: req.user!.uid
     }
 
     const product = new Product(data);
