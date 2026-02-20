@@ -6,13 +6,22 @@ import { IUser } from "../../../../../users/domain/interfaces/user";
 import { MongoUserDocument } from "../../users/interfaces/user";
 import { userFromMongoToDomain } from "../../users/mappers/user-mongo.mapper";
 
+// Handle duplicate errors
+import { handleDuplicateError } from "../../../../../shared/handle-duplicate-error";
+
+// Domain errors
+import { DuplicateUserError } from "../../../../../users/domain/errors";
+
+// HTTP error
+import { HttpError } from "../../../../../shared/http-error";
+
 export class MongooseAuthRepository implements IAuthRepository {
 	async findUserByEmail(email: string): Promise<IUser | null> {
-		const userDoc = await User.findOne({ email });
+		const user = await User.findOne({ email }).populate('role', 'roleName');
 
-		if (!userDoc) return null;
+		if (!user) return null;
 
-		return userFromMongoToDomain(userDoc as MongoUserDocument);
+		return userFromMongoToDomain(user);
 	}
 
 	async createGoogleUser(data: {
@@ -22,18 +31,28 @@ export class MongooseAuthRepository implements IAuthRepository {
 		img?: string;
 		role: string;
 	}): Promise<IUser> {
-		const mongoUser = new User({
-			name: data.name,
-			email: data.email,
-			password: data.password,
-			img: data.img,
-			role: data.role,
-			google: true,
-		});
+		try {
+			const mongoUser = new User({
+				name: data.name,
+				email: data.email,
+				password: data.password,
+				img: data.img,
+				role: data.role,
+				google: true,
+			});
 
-		await mongoUser.save();
+			await mongoUser.save();
 
-		return userFromMongoToDomain(mongoUser as MongoUserDocument);
+			const user = await User.findById(mongoUser._id).populate('role', 'roleName');
+
+			if (!user) {
+				throw new HttpError(500, 'Falló la creación del usuario');
+			}
+
+			return userFromMongoToDomain(user);
+		} catch (error: any) {
+			handleDuplicateError(error, data.email, DuplicateUserError);
+		}
 	}
 }
 
