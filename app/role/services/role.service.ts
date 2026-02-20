@@ -1,8 +1,16 @@
+// Domain errors
 import { DuplicateCategoryError } from "../../categories/domain/errors";
-import { Role } from "../../infrastructure/persistence/mongoose/role/models/role.model";
+
+// Domain interface
 import { IRole } from "../domain/interfaces/role";
+
+// Repositories interfaces
 import { IRoleRepository } from "../domain/repository/role.repository";
+
+// DTOs
 import { ICreateRoleDto, IResponseRoleDto, IUpdateRoleDto } from "../dto/role.dto";
+
+// Mappers
 import { RoleMapper } from "./role.mapper";
 
 export class RoleService {
