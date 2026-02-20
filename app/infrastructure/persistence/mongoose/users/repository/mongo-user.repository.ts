@@ -1,6 +1,6 @@
 
 // Implementación concreta del UserRepository usando Mongoose
-import { IUserRepository } from "../../../../../users/domain/repositories/user.repository";
+import { IUserFinder, IUserRepository } from "../../../../../users/domain/repositories/user.repository";
 import { IUser } from "../../../../../users/domain/interfaces/user";
 
 // Mappers
@@ -10,7 +10,7 @@ import { userFromMongoToDomain } from "../mappers/user-mongo.mapper";
 import { User } from "../models/user.model";
 
 
-export class MongooseUserRepository implements IUserRepository {
+export class MongooseUserRepository implements IUserRepository, IUserFinder {
 
   async findById(id: string): Promise<IUser | null> {
     const user = await User.findById(id);
