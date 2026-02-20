@@ -10,10 +10,10 @@ export class CategoryMapper {
             uid: category.uid,
             name: category.name,
             state: category.state,
-            added_by: category.added_by || '',
-            added_at: category.added_at || new Date(),
-            updated_by: category.updated_by || '',
-            updated_at: category.updated_at || new Date()
+            addedBy: category.addedBy || '',
+            addedAt: category.addedAt || new Date(),
+            updatedBy: category.updatedBy || '',
+            updatedAt: category.updatedAt || new Date()
 
         };
     }
@@ -29,7 +29,7 @@ export class CategoryMapper {
             name: category.name,
             state: category.state,
             updatedBy: category.updatedBy,
-            updated_at: new Date()
+            updatedAt: new Date()
         };
     }
 }

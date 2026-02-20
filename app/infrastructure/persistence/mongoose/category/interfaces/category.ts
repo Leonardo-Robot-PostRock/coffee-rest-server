@@ -5,9 +5,9 @@ export interface MongoCategory {
     name: string;
     state: boolean;
     addedBy: Schema.Types.ObjectId;
-    added_at: Date;
+    addedAt: Date;
     updatedBy: Schema.Types.ObjectId;
-    updated_at: Date;
+    updatedAt: Date;
 
 }
 

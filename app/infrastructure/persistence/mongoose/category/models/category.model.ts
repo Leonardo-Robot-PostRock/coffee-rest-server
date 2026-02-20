@@ -16,7 +16,7 @@ const CategorySchema = new mongoose.Schema<MongoCategory>({
         ref: 'User',
         required: true
     },
-    added_at: {
+    addedAt: {
         type: Date,
         default: Date.now
     },
@@ -24,7 +24,7 @@ const CategorySchema = new mongoose.Schema<MongoCategory>({
         type: Schema.Types.ObjectId,
         ref: 'User'
     },
-    updated_at: {
+    updatedAt: {
         type: Date,
         default: Date.now
     }

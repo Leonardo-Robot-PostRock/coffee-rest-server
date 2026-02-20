@@ -62,7 +62,7 @@ export class CategoryService {
         }
 
         payload.updatedBy = updatedBy;
-        payload.updated_at = new Date();
+        payload.updatedAt = new Date();
 
         const updatedCategory = await this.categoryRepository.updateById(id, payload);
 

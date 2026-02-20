@@ -16,9 +16,9 @@ export class Category implements ICategory {
             props.uid,
             props.name,
             props.state,
-            props.added_by,
+            props.addedBy,
             new Date(),
-            props.updated_by,
+            props.updatedBy,
             new Date()
         )
     }
