@@ -4,15 +4,17 @@ import { ICategory } from "../../../../../categories/domain/interfaces/category"
 // Repository interface
 import { ICategoryRepository } from "../../../../../categories/domain/repositories/category.repository";
 
-// Domain errors
-import { DuplicateCategoryError, CategoryNotFoundError } from '../../../../../categories/domain/errors';
-
 // Mapper
-import { categoryFromMongoToDomain } from "../mappers/category-mongoose.mapper";
+import { categoryFromMongoToDomain } from "../mappers/category-mongo.mapper";
 
 // Concrete implementation of the CategoryRepository using Mongoose
 import { Category } from "../models/category.model";
-import { MongoServerError } from "mongodb";
+
+// Domain errors
+import { CategoryNotFoundByIdError, DuplicateCategoryError } from '../../../../../categories/domain/errors';
+
+// Handle duplicate errors
+import { handleDuplicateError } from "../../../../../shared/handle-duplicate-error";
 
 /**
  * Implementation of the ICategoryRepository interface using Mongoose for MongoDB interactions.
@@ -28,11 +30,7 @@ export class MongooseCategoryRepository implements ICategoryRepository {
 
             return categoryFromMongoToDomain(category);
         } catch (error: any) {
-            if (error instanceof MongoServerError && error.code === 11000) {
-                // índice único de name violado
-                throw new DuplicateCategoryError(name);
-            }
-            throw error;
+            handleDuplicateError(error, name, DuplicateCategoryError);
         }
     }
 
@@ -69,29 +67,22 @@ export class MongooseCategoryRepository implements ICategoryRepository {
                 .populate('updatedBy', 'name email');
 
             if (!category) {
-                throw new CategoryNotFoundError(id);
+                throw new CategoryNotFoundByIdError(id);
             }
 
             return categoryFromMongoToDomain(category);
         } catch (error: any) {
-            if (error instanceof MongoServerError && error.code === 11000 && data.name) {
-                throw new DuplicateCategoryError(String(data.name));
-            }
-            throw error;
+            handleDuplicateError(error, String(data.name), DuplicateCategoryError);
         }
     }
 
     async deleteById(id: string): Promise<ICategory | null> {
         const state = false;
 
-        const category = await Category.findByIdAndUpdate(id, { state }, { new: true })
+        const deletedCategory = await Category.findByIdAndUpdate(id, { state }, { new: true })
             .populate('addedBy', 'name email')
             .populate('updatedBy', 'name email');
 
-        if (!category) {
-            throw new CategoryNotFoundError(id);
-        }
-
-        return categoryFromMongoToDomain(category);
+        return deletedCategory ? categoryFromMongoToDomain(deletedCategory) : null;
     }
 }

@@ -4,7 +4,7 @@ import { IAuthRepository } from "../../../../../auth/domain/repositories/auth.re
 import { IUser } from "../../../../../users/domain/interfaces/user";
 
 import { MongoUserDocument } from "../../users/interfaces/user";
-import { userFromMongoToDomain } from "../../users/mappers/user-mongoose.mapper";
+import { userFromMongoToDomain } from "../../users/mappers/user-mongo.mapper";
 
 export class MongooseAuthRepository implements IAuthRepository {
 	async findUserByEmail(email: string): Promise<IUser | null> {
