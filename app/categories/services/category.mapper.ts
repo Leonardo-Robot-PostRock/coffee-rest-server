@@ -11,9 +11,9 @@ export class CategoryMapper {
             name: category.name,
             state: category.state,
             addedBy: category.addedBy || '',
-            addedAt: category.addedAt || new Date(),
-            updatedBy: category.updatedBy || '',
-            updatedAt: category.updatedAt || new Date()
+            addedAt: category.addedAt!,
+            updatedBy: category.updatedBy!,
+            updatedAt: category.updatedAt!
 
         };
     }
@@ -29,7 +29,7 @@ export class CategoryMapper {
             name: category.name,
             state: category.state,
             updatedBy: category.updatedBy,
-            updatedAt: new Date()
+            updatedAt: category.updatedAt
         };
     }
 }
