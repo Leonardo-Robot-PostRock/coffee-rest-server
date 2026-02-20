@@ -18,7 +18,7 @@ import { DuplicateRoleError } from "../../../../../role/domain/errors/role.error
 
 export class MongooseRoleRepository implements IRoleRepository {
     async findByName(name: string): Promise<IRole | null> {
-        const role = await Role.findOne({ role_name: name });
+        const role = await Role.findOne({ roleName: name });
 
         return role ? roleFromMongoToDomain(role) : null;
     }
