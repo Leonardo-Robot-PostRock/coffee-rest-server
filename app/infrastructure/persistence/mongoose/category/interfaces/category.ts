@@ -1,7 +1,7 @@
 import { HydratedDocument, Schema } from "mongoose";
 
 export interface MongoCategory {
-    uid: string;
+    _id: Schema.Types.ObjectId;
     name: string;
     state: boolean;
     addedBy: Schema.Types.ObjectId;
