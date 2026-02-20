@@ -5,6 +5,6 @@ export interface IUserResponseDTO {
     role: string;
     state: boolean;
     img?: string;
-    created_at?: Date;
-    updated_at?: Date;
+    createdAt?: Date;
+    updatedAt?: Date;
 }

@@ -11,8 +11,8 @@ export class User implements IUser {
         public state: boolean,
         public img?: string,
         public google?: boolean,
-        public created_at?: Date,
-        public updated_at?: Date
+        public createdAt?: Date,
+        public updatedAt?: Date
     ) { }
 
     static create(props: IUser) {
@@ -25,8 +25,8 @@ export class User implements IUser {
             props.state,
             props.img || '',
             props.google,
-            new Date(),
-            new Date()
+            props.createdAt || new Date(),
+            props.updatedAt || new Date()
         )
     }
 }

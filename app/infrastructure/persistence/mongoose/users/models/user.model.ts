@@ -31,11 +31,11 @@ const UserSchema = new mongoose.Schema<MongoUser>({
         type: Boolean,
         default: false
     },
-    created_at: {
+    createdAt: {
         type: Date,
         default: Date.now
     },
-    updated_at: {
+    updatedAt: {
         type: Date,
         default: Date.now
     }

@@ -7,6 +7,6 @@ export interface IUser {
     role: string;
     state: boolean;
     google?: boolean;
-    created_at?: Date;
-    updated_at?: Date;
+    createdAt?: Date;
+    updatedAt?: Date;
 }

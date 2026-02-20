@@ -22,8 +22,8 @@ export class UserMapper {
             role: user.role,
             state: user.state,
             img: user.img,
-            created_at: user.created_at,
-            updated_at: user.updated_at
+            createdAt: user.createdAt,
+            updatedAt: user.updatedAt
         };
     }
 
@@ -32,7 +32,7 @@ export class UserMapper {
             name: user.name,
             password: user.password,
             email: user.email,
-            updated_at: user.updated_at
+            updatedAt: user.updatedAt
         };
     }
 }

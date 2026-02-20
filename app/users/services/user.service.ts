@@ -52,7 +52,7 @@ export class UserService {
             updatePayload.password = await this.passwordHasher.hash(password);
         }
 
-        updatePayload.updated_at = new Date();
+        updatePayload.updatedAt = new Date();
 
         const updated = await this.userRepository.updateById(id, updatePayload);
 

@@ -4,7 +4,7 @@ import { IUserRepository } from "../../../../../users/domain/repositories/user.r
 import { IUser } from "../../../../../users/domain/interfaces/user";
 
 // Mappers
-import { userFromMongoToDomain } from "../mappers/user-mongoose.mapper";
+import { userFromMongoToDomain } from "../mappers/user-mongo.mapper";
 
 // Mongoose User model
 import { User } from "../models/user.model";

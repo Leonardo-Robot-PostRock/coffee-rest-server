@@ -9,8 +9,8 @@ export interface MongoUser {
     role: Schema.Types.ObjectId;
     state: boolean;
     google: boolean;
-    created_at: Date;
-    updated_at: Date;
+    createdAt: Date;
+    updatedAt: Date;
 }
 
 // Define the Mongoose schema for the user
